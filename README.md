@@ -7,6 +7,6 @@ De achtergrond van alle pagina's moet er als volgt uit zien:
 
 ![Background](/assets/pepper-tablet-bg.png)
 
-Er verschijnt tekst om mensen te verwelkomen, mooie animaties?
+Er verschijnt tekst om mensen te verwelkomen, mooie animaties? 
 
 ![Welkom pagina](/assets/pepper-tablet-welkom.png)
