@@ -2,6 +2,7 @@ package hva.hboict.lab42;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,22 +12,30 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
+import com.aldebaran.qi.sdk.QiContext;
+import com.aldebaran.qi.sdk.QiSDK;
+import com.aldebaran.qi.sdk.RobotLifecycleCallbacks;
+import com.aldebaran.qi.sdk.design.activity.RobotActivity;
+import com.aldebaran.qi.sdk.design.activity.conversationstatus.SpeechBarDisplayStrategy;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RobotActivity implements RobotLifecycleCallbacks {
     ImageView bgImage;
     ArrayList<Bubble> bubbles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
         bgImage = findViewById(R.id.bg_bubble);
+
+        QiSDK.register(this, this);
+        setSpeechBarDisplayStrategy(SpeechBarDisplayStrategy.IMMERSIVE);
+        setContentView(R.layout.activity_main);
 
         animateBackground();
     }
@@ -95,5 +104,20 @@ public class MainActivity extends AppCompatActivity {
             if(bubble.y < -50)
                 this.bubbles.set(i, generateBubble(bubble.x));
         }
+    }
+
+    @Override
+    public void onRobotFocusGained(QiContext qiContext) {
+
+    }
+
+    @Override
+    public void onRobotFocusLost() {
+
+    }
+
+    @Override
+    public void onRobotFocusRefused(String reason) {
+
     }
 }
