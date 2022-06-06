@@ -1,6 +1,9 @@
 package hva.hboict.lab42;
 
+// Resource: https://github.com/softbankrobotics-labs/pepper-interaction-sample/blob/master/app/src/main/java/com/softbankrobotics/interactionsample/statemachine/InteractionStateMachine.java
+
 import androidx.appcompat.app.AppCompatActivity;
+import hva.hboict.lab42.utils.HumanEngager;
 
 
 import android.graphics.Bitmap;
@@ -33,18 +36,12 @@ import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MainActivity extends RobotActivity implements RobotLifecycleCallbacks {
+    private QiContext qiContext;
+    private HumanEngager humanEngager = null;
+
     ImageView bgImage;
     ArrayList<Bubble> bubbles = new ArrayList<>();
     ArrayList<SpeechBubble> speechBubbles = new ArrayList<>();
-    private QiContext qiContext;
-    private HumanAwareness awareness;
-    private Boolean engaging = false;
-    private Human queuedRecommendedHuman = null;
-    private TimerTask disengageTimerTask = null;
-
-    private int unengageTimeMs;
-
-    public Consumer<Boolean> onInteracting = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,6 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         this.speechBubbles.add(new SpeechBubble("Welkom", "Welkom, leuk dat je er bent!"));
 
         bgImage = findViewById(R.id.bg_bubble);
-
         animateBackground();
     }
 
@@ -129,58 +125,15 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
 
     @Override
     public void onRobotFocusGained(QiContext qiContext) {
-        System.out.println("TESTTT");
-
         this.qiContext = qiContext;
-        this.unengageTimeMs = unengageTimeMs;
-        awareness = qiContext.getHumanAwareness();
+        this.humanEngager = new HumanEngager(this.qiContext, 5*1000);
 
-
-        awareness.async().addOnRecommendedHumanToEngageChangedListener(recommendedHuman -> {
-            if (!engaging) {
-                tryToEngageHuman(recommendedHuman);
-            } else {
-                queuedRecommendedHuman = recommendedHuman;
-            }
-        });
-        awareness.async().getRecommendedHumanToEngage().andThenConsume(this::tryToEngageHuman);
+        this.humanEngager.onInteracting = isInteracting -> {
+            System.out.println("Human engaged something");
+            System.out.println(isInteracting);
+        };
+        this.humanEngager.start();
     }
-
-    private void setIsInteracting(Boolean isInteracting) {
-        if (onInteracting != null) {
-            try {
-                onInteracting.consume(isInteracting);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }
-    }
-
-    private void tryToEngageHuman(Human human) {
-        if (human != null) {
-            engaging = true;
-            //Log.i(TAG,"Building engage");
-            EngageHuman engage = EngageHumanBuilder.with(qiContext).withHuman(human).build();
-            engage.addOnHumanIsEngagedListener(() -> setIsInteracting(true));
-            engage.async().run().thenConsume((fut) -> {
-                engaging = false;
-                // Try again with a new human
-                tryToEngageHuman(queuedRecommendedHuman);
-                queuedRecommendedHuman = null;
-                // This listener could never be called any more, but leaving it risks a memory leak
-                engage.removeAllOnHumanIsEngagedListeners();
-            });
-        } else {
-            // No human to engage - BUT we give a timeout
-            disengageTimerTask = new TimerTask() {
-                public void run() {
-                    setIsInteracting(false);
-                }
-            };
-            new Timer("disengage").schedule(disengageTimerTask, unengageTimeMs);
-        }
-    }
-
 
     @Override
     public void onRobotFocusLost() {
