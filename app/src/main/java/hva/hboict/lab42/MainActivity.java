@@ -14,6 +14,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aldebaran.qi.Consumer;
 import com.aldebaran.qi.sdk.QiContext;
@@ -23,10 +25,15 @@ import com.aldebaran.qi.sdk.builder.EngageHumanBuilder;
 import com.aldebaran.qi.sdk.builder.SayBuilder;
 import com.aldebaran.qi.sdk.design.activity.RobotActivity;
 import com.aldebaran.qi.sdk.design.activity.conversationstatus.SpeechBarDisplayStrategy;
+import com.aldebaran.qi.sdk.object.conversation.BodyLanguageOption;
+import com.aldebaran.qi.sdk.object.conversation.Phrase;
 import com.aldebaran.qi.sdk.object.conversation.Say;
 import com.aldebaran.qi.sdk.object.human.Human;
 import com.aldebaran.qi.sdk.object.humanawareness.EngageHuman;
 import com.aldebaran.qi.sdk.object.humanawareness.HumanAwareness;
+import com.aldebaran.qi.sdk.object.locale.Language;
+import com.aldebaran.qi.sdk.object.locale.Locale;
+import com.aldebaran.qi.sdk.object.locale.Region;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +59,10 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         setContentView(R.layout.activity_main);
 
         this.speechBubbles.add(new SpeechBubble("Welkom", "Welkom, leuk dat je er bent!"));
+        this.speechBubbles.add(new SpeechBubble("Goedendag", "Welkom bij de opening van LAB42."));
+        this.speechBubbles.add(new SpeechBubble("Welkom", "Leuk om je te zien in dit gloednieuwe gebouw."));
+        this.speechBubbles.add(new SpeechBubble("Hey!", "Welkom bij de opening van LAB42."));
+        this.speechBubbles.add(new SpeechBubble("Hoi, welkom.", "Welkom bij de opening van LAB42."));
 
         bgImage = findViewById(R.id.bg_bubble);
         animateBackground();
@@ -121,6 +132,35 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             if(bubble.y < -50)
                 this.bubbles.set(i, generateBubble(bubble.x));
         }
+    }
+
+    private void sayRandomSentence() {
+        int index = (int)(Math.random() * this.speechBubbles.size());
+
+        SpeechBubble speechBubble = this.speechBubbles.get(index);
+
+        runOnUiThread(() -> ((TextView)findViewById(R.id.robot_text_sentence)).setText(speechBubble.displayText));
+        this.makeSay(speechBubble.speechText, false);
+    }
+
+    public Say makeSay(String text, boolean disableMovement) {
+        SayBuilder sayBuilder = SayBuilder.with(this.qiContext);
+
+        text = "\\vol=80\\" + text;
+
+        sayBuilder = sayBuilder.withPhrase(new Phrase(text));
+        if(disableMovement) {
+            sayBuilder = sayBuilder.withBodyLanguageOption(BodyLanguageOption.DISABLED);
+        }
+        sayBuilder = sayBuilder.withLocale(new Locale(Language.DUTCH, Region.NETHERLANDS));
+
+        if(this.qiContext != null)
+            return sayBuilder.build();
+
+        String finalText = text;
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(), finalText, Toast.LENGTH_SHORT).show());
+
+        return null;
     }
 
     @Override
