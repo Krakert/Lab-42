@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/WelcomeFragment"
-        android:name="com.hva.hboict.lab42.ui.WelcomeFragment"
-        android:label="@string/welcome_fragment_label"
-        tools:layout="@layout/fragment_welcome"/>
+        android:name="com.hva.hboict.lab42.ui.MainFragment"
+        android:label="@string/main_fragment_label"
+        tools:layout="@layout/fragment_main"/>
 </navigation>

@@ -12,20 +12,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.hva.hboict.lab42.R
-import com.hva.hboict.lab42.databinding.FragmentWelcomeBinding
+import com.hva.hboict.lab42.databinding.FragmentMainBinding
 import com.hva.hboict.lab42.model.Bubble
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
+private const val MAX_SIZE = 70F
+private const val MIN_SIZE = 5F
+private const val MAX_SPEED = 0.5F
+private const val AMOUNT_BUBBLES = 15
 
-class WelcomeFragment : Fragment() {
+@Suppress("DEPRECATION")
+class MainFragment : Fragment() {
 
     var bgImage: ImageView? = null
     private var bubbles = arrayListOf<Bubble>()
-
-
-    private var _binding: FragmentWelcomeBinding? = null
+    private var _binding: FragmentMainBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -36,7 +38,7 @@ class WelcomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -73,8 +75,8 @@ class WelcomeFragment : Fragment() {
                 paint.style = Paint.Style.FILL
                 paint.isAntiAlias = true
                 paint.isDither = true
-                for ((x, y) in bubbles) {
-                    canvas.drawCircle(x, y, 70f, paint)
+                for ((x, y, _, size) in bubbles) {
+                    canvas.drawCircle(x, y, size, paint)
                 }
                 activity?.runOnUiThread {
                     bgImage!!.background = BitmapDrawable(
@@ -89,15 +91,13 @@ class WelcomeFragment : Fragment() {
 
 
     private fun generateBubbles() {
-        val bubbleCount = 7
-        for (i in 0 until bubbleCount) {
+        for (i in 0 until AMOUNT_BUBBLES) {
             // Get the display size
             val displayMetrics = DisplayMetrics()
             activity?.windowManager?.defaultDisplay?.getRealMetrics(displayMetrics)
-            val spacer = displayMetrics.widthPixels / bubbleCount * i
+            val spacer = displayMetrics.widthPixels / AMOUNT_BUBBLES * i
             val offset = ThreadLocalRandom.current().nextInt(spacer - 50, spacer + 150).toFloat()
             bubbles.add(generateBubble(offset))
-            println()
         }
     }
 
@@ -105,11 +105,13 @@ class WelcomeFragment : Fragment() {
         // Get the display size
         val displayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getRealMetrics(displayMetrics)
+        val size = (MIN_SIZE.toInt()..MAX_SIZE.toInt()).random().toFloat()
+        val speed = (size - MAX_SIZE) / (MIN_SIZE - MAX_SIZE) * MAX_SPEED
         return Bubble(
             x = offsetLeft,
             y = (displayMetrics.heightPixels + ThreadLocalRandom.current().nextInt(100, 500)).toFloat(),
-            speed = Math.random().toFloat() * 0.3f,
-            size = (5..45).random().toFloat()
+            speed = speed,
+            size = size
         )
     }
 
@@ -127,4 +129,6 @@ class WelcomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
