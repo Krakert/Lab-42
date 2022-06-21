@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hva.hboict.lab42">
 
+    <uses-feature android:name="com.softbank.hardware.pepper"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +14,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.HvALAB42.NoActionBar">
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.HvALAB42">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,5 +26,4 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 </manifest>
