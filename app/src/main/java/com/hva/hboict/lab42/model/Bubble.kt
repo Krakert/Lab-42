@@ -5,6 +5,6 @@ data class Bubble(
     var y: Float,
     val speedY: Float,
     val speedX: Float,
-    val size: Float,
+    var size: Float,
     var direction: Direction,
 )

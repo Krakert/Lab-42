@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val displayMetrics = DisplayMetrics()
     private var spacer = displayMetrics.widthPixels / AMOUNT_BUBBLES * (0..AMOUNT_BUBBLES).random()
-
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -70,7 +70,7 @@ class MainFragment : Fragment() {
                 }
             }
             if (indexToPop != -1) {
-                bubbles.removeAt(indexToPop)
+                implodeBubble(bubbles[indexToPop])
                 if (bubbles.size < AMOUNT_BUBBLES) {
                     bubbles.add(
                         generateBubble(
@@ -83,6 +83,21 @@ class MainFragment : Fragment() {
         }
 
 
+    }
+
+    private fun implodeBubble(bubble: Bubble) {
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                activity?.runOnUiThread {
+                    bubble.size = bubble.size - 1
+                    if (bubble.size == 1.0F) {
+                        bubbles.remove(bubble)
+                        timer.cancel()
+                    }
+                }
+            }
+        }, 0, 20)
     }
 
     private fun animateWelcomeMessage() {
@@ -128,10 +143,8 @@ class MainFragment : Fragment() {
                 )
                 val canvas = Canvas(bitmap)
 
-                val paint = Paint()
                 paint.color = Color.rgb(253, 182, 91)
                 paint.style = Paint.Style.FILL
-                paint.isAntiAlias = true
                 paint.isDither = true
                 activity?.runOnUiThread {
                     for ((x, y, _, _, size) in bubbles) {
@@ -140,7 +153,7 @@ class MainFragment : Fragment() {
                     bgImage!!.background = BitmapDrawable(resources, bitmap)
                 }
                 MainScope().launch {
-                    updateBubblePositions()
+                    updateBubble()
                 }
             }
         }, 0, 20)
@@ -174,7 +187,7 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun updateBubblePositions() {
+    private fun updateBubble() {
         for (i in bubbles.indices) {
             val bubble: Bubble = bubbles[i]
             bubble.y -= bubble.speedY
