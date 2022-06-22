@@ -10,7 +10,12 @@
     <ImageView
         android:id="@+id/bg_bubble"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/iv_description_bubble" />
 
 
     <TextView
@@ -19,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:fontFamily="@font/open_sans_bold"
-        android:text="LAB"
+        android:text="@string/txt_lab"
         android:textColor="#f43605"
         android:textSize="120sp"
         android:textStyle="bold"
@@ -32,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:fontFamily="@font/open_sans_bold"
-        android:text="42"
+        android:text="@string/txt_42"
         android:textColor="#f43605"
         android:textSize="200sp"
         android:textStyle="bold"
@@ -47,9 +52,9 @@
         android:layout_centerVertical="true"
         android:fontFamily="@font/open_sans_bold"
         android:gravity="center"
-        android:text="Welkom"
+        tools:text="Welkom"
         android:textColor="#ffffff"
-        android:textSize="200sp"
+        android:textSize="160sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/bg_bubble"
         app:layout_constraintEnd_toEndOf="parent"

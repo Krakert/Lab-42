@@ -11,6 +11,8 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.hva.hboict.lab42.R
@@ -84,18 +86,28 @@ class MainFragment : Fragment() {
     }
 
     private fun animateWelcomeMessage() {
-        var index = 0
         val timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
                 activity?.runOnUiThread {
-                    val arrayWelcomeTxt = resources.getStringArray(R.array.Welcome_array)
-                    binding.txtWelcome.text = arrayWelcomeTxt[Random().nextInt(arrayWelcomeTxt.size)].toString()
+
+                    val animation = AlphaAnimation(1.0f, 0.0f)
+                    animation.duration = 400
+                    animation.repeatCount = 1
+                    animation.repeatMode = Animation.REVERSE
+
+                    animation.setAnimationListener(object : Animation.AnimationListener {
+                        override fun onAnimationEnd(animation: Animation?) { }
+                        override fun onAnimationStart(animation: Animation?) { }
+                        override fun onAnimationRepeat(animation: Animation?) {
+                            val arrayWelcomeTxt = resources.getStringArray(R.array.Welcome_array)
+                            binding.txtWelcome.text = arrayWelcomeTxt[Random().nextInt(arrayWelcomeTxt.size)].toString()
+                        }
+                    })
+
+                    binding.txtWelcome.startAnimation(animation)
                 }
-
-
             }
-
         }, 0, 1000 * 5)
     }
 
@@ -116,7 +128,6 @@ class MainFragment : Fragment() {
                 )
                 val canvas = Canvas(bitmap)
 
-                // Paint????
                 val paint = Paint()
                 paint.color = Color.rgb(253, 182, 91)
                 paint.style = Paint.Style.FILL
@@ -131,11 +142,9 @@ class MainFragment : Fragment() {
                 MainScope().launch {
                     updateBubblePositions()
                 }
-
             }
         }, 0, 20)
     }
-
 
     private fun generateBubbles() {
         for (i in 0 until AMOUNT_BUBBLES) {
