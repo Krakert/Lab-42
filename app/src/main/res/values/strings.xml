@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">HvA LAB42</string>
+    <string name="app_name">HvA LAB42 Krakert</string>
+    <string name="main_fragment_label">Main Fragment</string>
+
 </resources>
