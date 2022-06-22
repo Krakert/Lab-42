@@ -1,8 +1,10 @@
 package com.hva.hboict.lab42.model
 
 data class Bubble(
-    val x: Float,
+    var x: Float,
     var y: Float,
-    val speed: Float,
-    val size: Float
+    val speedY: Float,
+    val speedX: Float,
+    val size: Float,
+    var direction: Direction,
 )

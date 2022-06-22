@@ -2,4 +2,15 @@
     <string name="app_name">HvA LAB42 Krakert</string>
     <string name="main_fragment_label">Main Fragment</string>
 
+
+    <string-array name="Welcome_array">
+        <item>Welcome</item>
+        <item>Welkom</item>
+        <item>Willkommen</item>
+        <item>Velkommen</item>
+        <item>Bienvenue</item>
+        <item>Benvenuto</item>
+    </string-array>
+
+
 </resources>
