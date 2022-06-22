@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val displayMetrics = DisplayMetrics()
     private var spacer = displayMetrics.widthPixels / AMOUNT_BUBBLES * (0..AMOUNT_BUBBLES).random()
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -86,18 +86,32 @@ class MainFragment : Fragment() {
     }
 
     private fun implodeBubble(bubble: Bubble) {
+        var destroyed = false
         val timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
                 activity?.runOnUiThread {
-                    bubble.size = bubble.size - 1
+                    if (!destroyed){
+                        bubble.size = bubble.size - 1
+                    } else {
+                        bubble.size = bubble.size + 15
+                        bubble.paint.strokeWidth += 2
+                    }
                     if (bubble.size == 1.0F) {
+                        destroyed = true
+                        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+                        paint.color = Color.rgb(255, 255, 255)
+                        paint.style = Paint.Style.STROKE
+                        paint.strokeWidth += 1F
+                        bubble.paint = paint
+                    }
+                    if (destroyed && bubble.size > 25F){
                         bubbles.remove(bubble)
                         timer.cancel()
                     }
                 }
             }
-        }, 0, 20)
+        }, 0, 50)
     }
 
     private fun animateWelcomeMessage() {
@@ -143,11 +157,8 @@ class MainFragment : Fragment() {
                 )
                 val canvas = Canvas(bitmap)
 
-                paint.color = Color.rgb(253, 182, 91)
-                paint.style = Paint.Style.FILL
-                paint.isDither = true
                 activity?.runOnUiThread {
-                    for ((x, y, _, _, size) in bubbles) {
+                    for ((x, y, _, _, size, _, paint) in bubbles) {
                         canvas.drawCircle(x, y, size, paint)
                     }
                     bgImage!!.background = BitmapDrawable(resources, bitmap)
@@ -175,6 +186,10 @@ class MainFragment : Fragment() {
         val size = (MIN_SIZE.toInt()..MAX_SIZE.toInt()).random().toFloat()
         val speedY = (size - MAX_SIZE) / (MIN_SIZE - MAX_SIZE) * MAX_SPEED
         val direction = Direction.values()[Random().nextInt(Direction.values().size)]
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.color = Color.rgb(253, 182, 91)
+        paint.style = Paint.Style.FILL
+        paint.isDither = true
         return Bubble(
             x = offsetLeft,
             y = (displayMetrics.heightPixels + ThreadLocalRandom.current()
@@ -182,7 +197,8 @@ class MainFragment : Fragment() {
             speedY = speedY,
             speedX = Random().nextFloat(),
             size = size,
-            direction = direction
+            direction = direction,
+            paint = paint
         )
     }
 
