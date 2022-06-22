@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">HvA LAB42 Krakert</string>
     <string name="main_fragment_label">Main Fragment</string>
+    <string name="txt_lab">LAB</string>
+    <string name="txt_42">42</string>
+    <string name="iv_description_bubble">This is a bubble\\</string>
 
 
     <string-array name="Welcome_array">
