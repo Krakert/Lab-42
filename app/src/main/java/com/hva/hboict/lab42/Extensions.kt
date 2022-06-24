@@ -21,12 +21,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.concurrent.schedule
 
-class HumanEngager(
-    private val qiContext: QiContext, // Inner state, from which state is calculated
-    private val unengageTimeMs: Int
-) {
-    private val awareness: HumanAwareness = qiContext.humanAwareness
+class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs: Int) {
 
+    private val awareness: HumanAwareness = qiContext.humanAwareness
     // Inner working of engaging system
     private var engaging = false
     private var queuedRecommendedHuman: Human? = null

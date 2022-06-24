@@ -5,7 +5,6 @@
     <string name="txt_42">42</string>
     <string name="iv_description_bubble">This is a bubble\\</string>
 
-
     <string-array name="Welcome_array">
         <item>Welcome</item>
         <item>Welkom</item>
@@ -18,6 +17,31 @@
         <item>ようこそ</item>
         <item>Byivenun</item>
         <item>Witajcie</item>
+    </string-array>
+
+    <string-array name="phrases_old_array">
+        <item>U ziet er goed uit vandaag</item>
+        <item>Welkom in dit mooie pand, leuk dat u er bent</item>
+        <item>Ik heet u welkom op de U-FAA</item>
+        <item>De U-FAA blijft zich steeds verder uitbreiden</item>
+        <item>De techniek hier staat nooit stil</item>
+        <item>Dit gebouw is echt mooi modern, vind u niet?</item>
+        <item>Wist u dat het getal 42 veelvoorkomend is in de wetenschap, het zou het ultieme antwoord op het leven zijn</item>
+    </string-array>
+
+    <string-array name="phrases_young_array">
+        <item>Ik heb begrepen dat hier veel pokemons zitten"</item>
+        <item>Welkom op de U-FAA</item>
+        <item>Wat leuk dat je hier bent</item>
+        <item>Hoe noem je een oude sneeuwpop? ............... Water!</item>
+    </string-array>
+
+    <string-array name="phrases_greeting_array">
+        <item>Hallo daar!</item>
+        <item>Hey!</item>
+        <item>Hallo</item>
+        <item>Hoi!</item>
+        <item>Goededag</item>
     </string-array>
 
 

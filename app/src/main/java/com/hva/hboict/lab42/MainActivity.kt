@@ -16,6 +16,7 @@ import com.aldebaran.qi.sdk.`object`.locale.Region
 import com.aldebaran.qi.sdk.builder.SayBuilder
 import com.aldebaran.qi.sdk.design.activity.RobotActivity
 import com.hva.hboict.lab42.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
     // The QiContext provided by the QiSDK.
@@ -65,45 +66,29 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
         this.qiContext = qiContext
         humanEngager = HumanEngager(this.qiContext!!, 100)
         humanEngager?.onInteracting = Consumer {
+            if (it == null) {
+                return@Consumer
+            }
+            // Create a phrase.
+            val estemAge = it.estimatedAge.toString()
+            val result = estemAge.filter { it.isDigit() }
+            val age = it.estimatedAge.years // Integer.parseInt(result)
 
 
-            if (it != null) {
-                // Create a phrase.
-                val estemAge = it.estimatedAge.toString()
-                val result = estemAge.filter { it.isDigit() }
-                val age = Integer.parseInt(result)
+            val lingo = "\\vct=20\\\\rspd=50\\G-R-A-T-I-S   \\pau=750\\    \\rspd=70\\gratis"
 
-                println(ageSpeach(age))
-                val lingo = "\\vct=20\\\\rspd=50\\G-R-A-T-I-S   \\pau=750\\    \\rspd=70\\gratis"
+            val arrayTxtYoung = resources.getStringArray(R.array.phrases_young_array)
+            val arrayTxtOld = resources.getStringArray(R.array.phrases_old_array)
 
-
-                val phrasesOld = listOf(
-                    "U ziet er goed uit vandaag",
-                    "Welkom in dit mooie pand, leuk dat u er bent",
-                    "Ik heet u welkom op de U-FAA",
-                    "De U-FAA blijft zich uitbreiden",
-                    "De techniek hier staat nooit stil",
-                    "Dit gebouw is echt mooi modern",
-                    "Wist u dat het getal 42 veelvoorkomend is in de wetenschap, het zou het ultieme antwoord op het leven zijn."
-                )
-                val phrasesYoung = listOf(
-                    "Er zitten hier veel pokemons",
-                    "Hey jij ziet er mooi uit!", "Welkom op de U-FAA", "Wat leuk dat je hier bent",
-                    "Hoe noem je een oude sneeuwpop? ........... Water!"
-                )
-
-                if (age > 0) {
-                    if (ageSpeach(age)) {
-                        val randomElement = phrasesOld.random()
-                        speach(randomElement, 100, 80)
-                    } else {
-                        val randomElement = phrasesYoung.random()
-                        speach((randomElement), 100, 80)
-                    }
-
-                }
+            if (age < 0) {
+                return@Consumer
             }
 
+            if (ageSpeach(age)) {
+                speach(arrayTxtOld[Random().nextInt(arrayTxtOld.size)].toString(), 100, 80)
+            } else {
+                speach(arrayTxtYoung[Random().nextInt(arrayTxtYoung.size)].toString(), 100, 80)
+            }
         }
         humanEngager?.start()
     }
