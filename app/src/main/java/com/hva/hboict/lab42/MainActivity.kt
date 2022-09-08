@@ -44,7 +44,7 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
 
     }
 
-    private fun speach(phrase: String, pitch: Int, speed: Int) {
+    private fun speech(phrase: String, pitch: Int, speed: Int) {
         val locale = Locale(Language.DUTCH, Region.NETHERLANDS)
         val pitchS = "\\vct=$pitch\\"
         val speedS = "\\rspd=$speed\\"
@@ -55,11 +55,7 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
             .withLocale(locale)
             .build()
 
-        return say.run()
-    }
-
-    private fun ageSpeach(age: Int): Boolean {
-        return age > 18
+        say.async().run()
     }
 
     override fun onRobotFocusGained(qiContext: QiContext) {
@@ -69,25 +65,15 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
             if (it == null) {
                 return@Consumer
             }
-            // Create a phrase.
-            val estemAge = it.estimatedAge.toString()
-            val result = estemAge.filter { it.isDigit() }
             val age = it.estimatedAge.years // Integer.parseInt(result)
-
-
-            val lingo = "\\vct=20\\\\rspd=50\\G-R-A-T-I-S   \\pau=750\\    \\rspd=70\\gratis"
 
             val arrayTxtYoung = resources.getStringArray(R.array.phrases_young_array)
             val arrayTxtOld = resources.getStringArray(R.array.phrases_old_array)
 
-            if (age < 0) {
-                return@Consumer
-            }
-
-            if (ageSpeach(age)) {
-                speach(arrayTxtOld[Random().nextInt(arrayTxtOld.size)].toString(), 100, 80)
-            } else {
-                speach(arrayTxtYoung[Random().nextInt(arrayTxtYoung.size)].toString(), 100, 80)
+            when {
+                age < 0 -> speech(arrayTxtOld[Random().nextInt(arrayTxtOld.size)].toString(), 100, 80)
+                age in 1..18 ->  speech(arrayTxtYoung[Random().nextInt(arrayTxtYoung.size)].toString(), 100, 80)
+                age > 18 -> speech(arrayTxtOld[Random().nextInt(arrayTxtOld.size)].toString(), 100, 80)
             }
         }
         humanEngager?.start()
