@@ -1,9 +1,7 @@
 package com.hva.hboict.lab42
 
-import android.content.ContentValues.TAG
-import android.util.Log
+import android.content.res.Resources
 import com.aldebaran.qi.Consumer
-import com.aldebaran.qi.Future
 import com.aldebaran.qi.sdk.QiContext
 import com.aldebaran.qi.sdk.`object`.conversation.Phrase
 import com.aldebaran.qi.sdk.`object`.conversation.Say
@@ -15,11 +13,7 @@ import com.aldebaran.qi.sdk.`object`.locale.Region
 import com.aldebaran.qi.sdk.builder.ApproachHumanBuilder
 import com.aldebaran.qi.sdk.builder.EngageHumanBuilder
 import com.aldebaran.qi.sdk.builder.SayBuilder
-import kotlinx.coroutines.delay
-import java.time.Instant
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.concurrent.schedule
 
 class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs: Int) {
 
@@ -29,8 +23,9 @@ class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs:
     private var queuedRecommendedHuman: Human? = null
     private var disengageTimerTask: TimerTask? = null
     var onInteracting: Consumer<Human>? = null
-    var currentTimestamp = System.currentTimeMillis()
-    var trigger = true
+    private var currentTimestamp = System.currentTimeMillis()
+    private var trigger = true
+
 
 
     /* Internal; notify listener of "isInteracting" state.
@@ -50,16 +45,6 @@ class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs:
     private fun tryToEngageHuman(human: Human?) {
         if (human != null) {
             engaging = true
-
-            // Get the characteristics, and log them.
-            Log.i(TAG, "${human.estimatedAge.years}")
-            Log.i(TAG, "Gender: ${human.estimatedGender}")
-            Log.i(TAG, "Pleasure state: ${human.emotion.pleasure}")
-            Log.i(TAG, "Excitement state: ${human.emotion.excitement}")
-            Log.i(TAG, "Engagement state: ${human.engagementIntention}")
-            Log.i(TAG, "Smile state: ${human.facialExpressions.smile}")
-            Log.i(TAG, "Attention state: ${human.attention}")
-
 
             val engage = EngageHumanBuilder.with(qiContext).withHuman(human).build()
             engage.addOnHumanIsEngagedListener {
@@ -105,17 +90,20 @@ class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs:
             // Build the action.
             // Robot will approach human (ride to him)
 
-            val helloPhrases = listOf(
-                "Hallo daar!",
-                "Hey!", "Hallo!", "Hoi!",
-                "Goeiedag!", "Ewa"
-            )
-            val randomElement = helloPhrases.random()
+            val arrayTxtGreeting = if (isDutch) {
+                Resources.getSystem().getStringArray(R.array.phrases_greeting_array)
+            } else {
+                Resources.getSystem().getStringArray(R.array.phrases_greeting_array_english)
+            }
 
+            val randomElement = arrayTxtGreeting[Random().nextInt(arrayTxtGreeting.size)].toString()
             val phrase = Phrase(randomElement)
-            println(currentTimestamp)
-            val locale = Locale(Language.DUTCH, Region.NETHERLANDS)
 
+            val locale = if (isDutch) {
+                Locale(Language.DUTCH, Region.NETHERLANDS)
+            } else {
+                Locale(Language.ENGLISH, Region.UNITED_KINGDOM)
+            }
             val say: Say = SayBuilder.with(qiContext)
                 .withPhrase(phrase)
                 .withLocale(locale)
@@ -129,9 +117,6 @@ class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs:
                 approachHuman.async().run()
             }
 
-
-
-
             if (trigger) {
                 say.async().run()
                 trigger = false
@@ -141,18 +126,6 @@ class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs:
                 trigger = true
             }
         }
-
-        /* Start tracking and engaging humans.
-         */
-        fun stop() {
-            awareness.removeAllOnRecommendedHumanToEngageChangedListeners()
-            if (disengageTimerTask != null) {
-                disengageTimerTask!!.cancel()
-            }
-        } // Internal API
-
     }
-
-
 }
 

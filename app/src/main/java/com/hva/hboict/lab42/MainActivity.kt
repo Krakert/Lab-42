@@ -18,6 +18,8 @@ import com.aldebaran.qi.sdk.design.activity.RobotActivity
 import com.hva.hboict.lab42.databinding.ActivityMainBinding
 import java.util.*
 
+const val isDutch = true
+
 class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
     // The QiContext provided by the QiSDK.
     private var qiContext: QiContext? = null
@@ -67,8 +69,17 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
             }
             val age = it.estimatedAge.years // Integer.parseInt(result)
 
-            val arrayTxtYoung = resources.getStringArray(R.array.phrases_young_array)
-            val arrayTxtOld = resources.getStringArray(R.array.phrases_old_array)
+            val arrayTxtYoung = if (isDutch) {
+                resources.getStringArray(R.array.phrases_young_array)
+            } else {
+                resources.getStringArray(R.array.phrases_young_array_english)
+            }
+
+            val arrayTxtOld = if (isDutch) {
+                resources.getStringArray(R.array.phrases_old_array)
+            } else {
+                resources.getStringArray(R.array.phrases_old_array_english)
+            }
 
             when {
                 age < 0 -> speech(arrayTxtOld[Random().nextInt(arrayTxtOld.size)].toString(), 100, 80)
