@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HvA LAB42 Krakert</string>
+    <string name="app_name">HvA LAB42</string>
     <string name="main_fragment_label">Main Fragment</string>
     <string name="txt_lab">LAB</string>
     <string name="txt_42">42</string>
@@ -33,6 +33,7 @@
         <item>Ik heb begrepen dat hier veel pokemons zitten"</item>
         <item>Welkom op de U-FAA</item>
         <item>Wat leuk dat je hier bent</item>
+        <item>Welkom op de U-FAA, neem lekker wat te drinken</item>
         <item>Hoe noem je een oude sneeuwpop? ............... Water!</item>
     </string-array>
 
@@ -42,6 +43,7 @@
         <item>Hallo</item>
         <item>Hoi!</item>
         <item>Goededag</item>
+        <item>welkom</item>
     </string-array>
 
 
