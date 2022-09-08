@@ -47,4 +47,33 @@
     </string-array>
 
 
+    <string-array name="phrases_old_array_english">
+        <item>You look great today!</item>
+        <item>Welcome to this new facily, nice to see you here</item>
+        <item>Ik heet u welkom op de U-FAA</item>
+        <item>De U-FAA blijft zich steeds verder uitbreiden</item>
+        <item>De techniek hier staat nooit stil</item>
+        <item>Dit gebouw is echt mooi modern, vind u niet?</item>
+        <item>Wist u dat het getal 42 veelvoorkomend is in de wetenschap, het zou het ultieme antwoord op het leven zijn</item>
+    </string-array>
+
+    <string-array name="phrases_young_array_english">
+        <item>Ik heb begrepen dat hier veel pokemons zitten"</item>
+        <item>Welkom op de U-FAA</item>
+        <item>Wat leuk dat je hier bent</item>
+        <item>Welkom op de U-FAA, neem lekker wat te drinken</item>
+        <item>Hoe noem je een oude sneeuwpop? ............... Water!</item>
+    </string-array>
+
+    <string-array name="phrases_greeting_array_english">
+        <item>Hallo daar!</item>
+        <item>Hey!</item>
+        <item>Hallo</item>
+        <item>Hoi!</item>
+        <item>Goededag</item>
+        <item>welkom</item>
+    </string-array>
+
+
+
 </resources>
