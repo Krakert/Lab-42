@@ -47,7 +47,12 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
     }
 
     private fun speech(phrase: String, pitch: Int, speed: Int) {
-        val locale = Locale(Language.DUTCH, Region.NETHERLANDS)
+        val locale = if (isDutch){
+            Locale(Language.DUTCH, Region.NETHERLANDS)
+        } else {
+             Locale(Language.ENGLISH, Region.UNITED_KINGDOM)
+        }
+
         val pitchS = "\\vct=$pitch\\"
         val speedS = "\\rspd=$speed\\"
         val phraseBuild = Phrase("$speedS  $pitchS  $phrase")
@@ -62,6 +67,18 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
 
     override fun onRobotFocusGained(qiContext: QiContext) {
         this.qiContext = qiContext
+//        val text = arrayOf(
+//            resources.getStringArray(R.array.phrases_old_array_english),
+//            resources.getStringArray(R.array.phrases_young_array_english),
+//            resources.getStringArray(R.array.phrases_greeting_array_english))
+//
+//
+//        text.forEach {
+//            it.forEach { string ->
+//                speech(string, 100, 80) // MAKE SURE TO USE SAY.RUN()
+//            }
+//        }
+
         humanEngager = HumanEngager(this.qiContext!!, 100)
         humanEngager?.onInteracting = Consumer {
             if (it == null) {

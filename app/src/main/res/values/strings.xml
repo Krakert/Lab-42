@@ -37,44 +37,28 @@
         <item>Hoe noem je een oude sneeuwpop? ............... Water!</item>
     </string-array>
 
-    <string-array name="phrases_greeting_array">
-        <item>Hallo daar!</item>
-        <item>Hey!</item>
-        <item>Hallo</item>
-        <item>Hoi!</item>
-        <item>Goededag</item>
-        <item>welkom</item>
-    </string-array>
-
-
     <string-array name="phrases_old_array_english">
         <item>You look great today!</item>
+        <item>Looking good today!</item>
         <item>Welcome to this new facility, nice to see you here</item>
         <item>I welcome you to the U-FAA</item>
         <item>The U-FAA keeps expanding</item>
         <item>The technology never stops advancing </item>
-        <item>This building is beautiful, don't you think?</item>
+        <item>This building is beautiful, dont you think?</item>
         <item>Did you know the number 42 comes around a lot in science, it is speculated to be the answer to life</item>
-        <item></item>
+        <item>You are as welcome as the flowers in May</item>
     </string-array>
 
     <string-array name="phrases_young_array_english">
-        <item>Ik heb begrepen dat hier veel pokemons zitten"</item>
-        <item>Welkom op de U-FAA</item>
-        <item>Wat leuk dat je hier bent</item>
-        <item>Welkom op de U-FAA, neem lekker wat te drinken</item>
-        <item>Hoe noem je een oude sneeuwpop? ............... Water!</item>
+        <item>Good to have you here</item>
+        <item>Great to have you here</item>
+        <item>Welcome to the U-FAA</item>
+        <item>Big welcome to the U-FAA</item>
+        <item>I welcome you here at the UvA </item>
+        <item>Welcome, grab a drink and have a look around</item>
+        <item>Make yourself at home</item>
+        <item>We are delighted to have you here</item>
+        <item>Welcome into my new house</item>
     </string-array>
-
-    <string-array name="phrases_greeting_array_english">
-        <item>Hallo daar!</item>
-        <item>Hey!</item>
-        <item>Hallo</item>
-        <item>Hoi!</item>
-        <item>Goededag</item>
-        <item>welkom</item>
-    </string-array>
-
-
 
 </resources>

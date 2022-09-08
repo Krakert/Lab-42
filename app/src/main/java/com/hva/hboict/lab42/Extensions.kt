@@ -1,6 +1,7 @@
 package com.hva.hboict.lab42
 
-import android.content.res.Resources
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.aldebaran.qi.Consumer
 import com.aldebaran.qi.sdk.QiContext
 import com.aldebaran.qi.sdk.`object`.conversation.Phrase
@@ -14,6 +15,7 @@ import com.aldebaran.qi.sdk.builder.ApproachHumanBuilder
 import com.aldebaran.qi.sdk.builder.EngageHumanBuilder
 import com.aldebaran.qi.sdk.builder.SayBuilder
 import java.util.*
+
 
 class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs: Int) {
 
@@ -90,13 +92,28 @@ class HumanEngager(private val qiContext: QiContext, private val unengageTimeMs:
             // Build the action.
             // Robot will approach human (ride to him)
 
+
             val arrayTxtGreeting = if (isDutch) {
-                Resources.getSystem().getStringArray(R.array.phrases_greeting_array)
+                arrayOf(
+                    "Hallo daar!",
+                    "Hey!",
+                    "Hallo",
+                    "Hoi!",
+                    "Goededag",
+                    "welkom"
+                )
             } else {
-                Resources.getSystem().getStringArray(R.array.phrases_greeting_array_english)
+                arrayOf(
+                    "hello their!",
+                    "Hey!",
+                    "hi",
+                    "Good day",
+                    "welcome",
+                    "Greetings"
+                )
             }
 
-            val randomElement = arrayTxtGreeting[Random().nextInt(arrayTxtGreeting.size)].toString()
+            val randomElement = arrayTxtGreeting[Random().nextInt(arrayTxtGreeting.size)]
             val phrase = Phrase(randomElement)
 
             val locale = if (isDutch) {
