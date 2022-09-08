@@ -49,12 +49,13 @@
 
     <string-array name="phrases_old_array_english">
         <item>You look great today!</item>
-        <item>Welcome to this new facily, nice to see you here</item>
-        <item>Ik heet u welkom op de U-FAA</item>
-        <item>De U-FAA blijft zich steeds verder uitbreiden</item>
-        <item>De techniek hier staat nooit stil</item>
-        <item>Dit gebouw is echt mooi modern, vind u niet?</item>
-        <item>Wist u dat het getal 42 veelvoorkomend is in de wetenschap, het zou het ultieme antwoord op het leven zijn</item>
+        <item>Welcome to this new facility, nice to see you here</item>
+        <item>I welcome you to the U-FAA</item>
+        <item>The U-FAA keeps expanding</item>
+        <item>The technology never stops advancing </item>
+        <item>This building is beautiful, don't you think?</item>
+        <item>Did you know the number 42 comes around a lot in science, it is speculated to be the answer to life</item>
+        <item></item>
     </string-array>
 
     <string-array name="phrases_young_array_english">
