@@ -18,7 +18,7 @@ import com.aldebaran.qi.sdk.design.activity.RobotActivity
 import com.hva.hboict.lab42.databinding.ActivityMainBinding
 import java.util.*
 
-const val isDutch = true
+const val isDutch = false
 
 class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
     // The QiContext provided by the QiSDK.
@@ -50,7 +50,7 @@ class MainActivity : RobotActivity(), RobotLifecycleCallbacks {
         val locale = if (isDutch){
             Locale(Language.DUTCH, Region.NETHERLANDS)
         } else {
-             Locale(Language.ENGLISH, Region.UNITED_KINGDOM)
+             Locale(Language.ENGLISH, Region.UNITED_STATES)
         }
 
         val pitchS = "\\vct=$pitch\\"
